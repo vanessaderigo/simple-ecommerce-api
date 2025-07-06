@@ -1,6 +1,7 @@
 package com.vanessa.simpleecommerceapi.order.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.vanessa.simpleecommerceapi.payment.model.Payment;
 import com.vanessa.simpleecommerceapi.user.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,9 @@ public class Order {
 
     @OneToMany(mappedBy = "id.order")
     private Set<OrderItem> items = new HashSet<>();
+
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Payment payment;
 
     public Order(Long id, Instant moment, OrderStatus status, User client) {
         this.id = id;
