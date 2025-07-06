@@ -1,5 +1,6 @@
 package com.vanessa.simpleecommerceapi.category.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vanessa.simpleecommerceapi.product.model.Product;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -19,6 +20,7 @@ public class Category {
 
     private String name;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "categories")
     private Set<Product> products = new HashSet<>();
 

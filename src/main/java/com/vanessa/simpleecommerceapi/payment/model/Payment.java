@@ -1,5 +1,6 @@
 package com.vanessa.simpleecommerceapi.payment.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vanessa.simpleecommerceapi.order.model.Order;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -15,7 +16,10 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Instant moment;
+
+    @JsonIgnore
     @OneToOne
     @MapsId
     private Order order;

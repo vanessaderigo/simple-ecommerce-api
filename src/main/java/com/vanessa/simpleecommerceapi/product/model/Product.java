@@ -1,9 +1,13 @@
 package com.vanessa.simpleecommerceapi.product.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vanessa.simpleecommerceapi.category.model.Category;
+import com.vanessa.simpleecommerceapi.order.model.Order;
 import com.vanessa.simpleecommerceapi.order.model.OrderItem;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
@@ -28,6 +32,7 @@ public class Product {
 
     private String imgUrl;
 
+    @Getter
     @ManyToMany
     @JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
@@ -41,5 +46,14 @@ public class Product {
         this.description = description;
         this.price = price;
         this.imgUrl = imgUrl;
+    }
+
+    @JsonIgnore
+    public Set<Order> getOrders() {
+        Set<Order> set = new HashSet<>();
+        for(OrderItem x : items) {
+            set.add(x.getOrder());
+        }
+        return set;
     }
 }
