@@ -13,6 +13,11 @@ public class OrderService {
 
     private final OrderRepository repository;
 
+    public Order save(Order order){
+        repository.save(order);
+        return order;
+    }
+
     public Order findById(Long id){
         Optional<Order> optional = repository.findById(id);
         return optional.get();

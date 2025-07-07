@@ -4,10 +4,10 @@ import com.vanessa.simpleecommerceapi.order.model.Order;
 import com.vanessa.simpleecommerceapi.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/orders")
@@ -15,6 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderController {
 
     private final OrderService service;
+
+    @PostMapping
+    public ResponseEntity<Order> save(@RequestBody Order order){
+        service.save(order);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(order.getId()).toUri();
+        return ResponseEntity.created(uri).body(order);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Order> findById(@PathVariable long id){
